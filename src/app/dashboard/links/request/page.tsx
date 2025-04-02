@@ -265,8 +265,24 @@ export default function RequestPaymentPage() {
       </Card>
 
       {/* Success Dialog */}
-      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+      <Dialog open={showSuccessDialog} onOpenChange={(open) => {
+        if (!open) {
+          // Reset form and close dialog
+          form.reset();
+          setShowSuccessDialog(false);
+        }
+      }}>
         <DialogContent className="sm:max-w-md p-6">
+          <button
+            onClick={() => setShowSuccessDialog(false)}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span className="sr-only">Close</span>
+          </button>
           <DialogHeader className="space-y-3 text-center">
             <DialogTitle className="text-xl">Payment Link Created!</DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -294,14 +310,20 @@ export default function RequestPaymentPage() {
             <Button
               variant="default"
               className="w-full bg-black text-white hover:bg-black/90"
-              onClick={() => setShowSuccessDialog(false)}
+              onClick={() => {
+                setShowSuccessDialog(false);
+                form.reset();
+              }}
             >
               Create Another Link
             </Button>
             <Button
               variant="secondary"
               className="w-full bg-neutral-100 hover:bg-neutral-200 text-black"
-              onClick={() => router.push('/dashboard/links')}
+              onClick={() => {
+                setShowSuccessDialog(false);
+                router.push('/dashboard/links');
+              }}
             >
               View All Links
             </Button>
