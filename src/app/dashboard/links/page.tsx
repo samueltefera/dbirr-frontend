@@ -6,14 +6,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { useAuth } from '@/lib/context/AuthContext';
-import { PaymentLink } from '@/lib/types'; // Import the type
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from 'sonner';
-import { PlusCircle, Link2, ListX } from 'lucide-react';
+import { PlusCircle, Link2, ListX, Plus, Loader2 } from 'lucide-react';
+import { LinkDetailsDialog } from './components/LinkDetailsDialog';
 
 // Helper function to format date
 const formatDate = (dateString: string) => {
@@ -58,6 +58,18 @@ const getPaymentUrl = (linkId: string): string => {
     return `/pay/${linkId}`;
 };
 
+interface PaymentLink {
+  id: string;
+  linkId: string;
+  productName: string;
+  productDescription?: string;
+  amountFiat: number;
+  currency: string;
+  fiatCurrencyCode: string;
+  status: string;
+  createdAt: string;
+  remark?: string;
+}
 
 export default function PaymentLinksPage() {
   const { user } = useAuth();
@@ -65,6 +77,7 @@ export default function PaymentLinksPage() {
   const [links, setLinks] = useState<PaymentLink[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedLink, setSelectedLink] = useState<PaymentLink | null>(null);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -100,13 +113,16 @@ export default function PaymentLinksPage() {
     }
   };
 
+  const handleLinkClick = (link: PaymentLink) => {
+    setSelectedLink(link);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Payment Links</h1>
         <Button onClick={() => router.push('/dashboard/links/request')}>
-          <PlusCircle className="mr-2 h-4 w-4" /> Request Payment
+          <Plus className="mr-2 h-4 w-4" /> Create New Link
         </Button>
       </div>
 
@@ -117,12 +133,8 @@ export default function PaymentLinksPage() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            // Loading Skeletons for Table
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
+            <div className="flex items-center justify-center h-64">
+              <Loader2 className="h-8 w-8 animate-spin" />
             </div>
           ) : error ? (
             // Error State
@@ -137,7 +149,7 @@ export default function PaymentLinksPage() {
                <p className="font-medium">No payment links found.</p>
                <p className="text-sm mb-4">Create your first payment link to start receiving payments.</p>
                <Button size="sm" onClick={() => router.push('/dashboard/links/request')}>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Request Payment
+                  <Plus className="mr-2 h-4 w-4" /> Create New Link
                 </Button>
             </div>
           ) : (
@@ -154,15 +166,19 @@ export default function PaymentLinksPage() {
               </TableHeader>
               <TableBody>
                 {links.map((link) => (
-                  <TableRow key={link.id}>
+                  <TableRow 
+                    key={link.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => handleLinkClick(link)}
+                  >
                     <TableCell className="font-medium max-w-[200px] truncate">
                         {link.productName}
                         {link.productDescription && (
                             <p className='text-xs text-muted-foreground truncate'>{link.productDescription}</p>
                         )}
-                        </TableCell>
+                    </TableCell>
                     <TableCell>
-                      <div>{link.amount} {link.currency}</div>
+                      <div>{link.amountFiat} {link.fiatCurrencyCode}</div>
                       <div className="text-xs text-muted-foreground">
                         {formatCurrency(link.amountFiat, link.fiatCurrencyCode)}
                       </div>
@@ -174,21 +190,17 @@ export default function PaymentLinksPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right space-x-1">
-                        {/* Maybe add View Details later */}
-                       {/* <Button variant="ghost" size="icon" title="View Details"> <Eye className="h-4 w-4" /> </Button> */}
                        <Button
                          variant="ghost"
                          size="icon"
-                         title="Copy Payment Link"
-                         onClick={() => copyToClipboard(getPaymentUrl(link.linkId), "Payment URL copied!")}
+                         title="View Details"
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           handleLinkClick(link);
+                         }}
                         >
                           <Link2 className="h-4 w-4" />
                        </Button>
-                        {/* <Button variant="ghost" size="icon" title="Open Payment Link" asChild>
-                            <a href={getPaymentUrl(link.linkId)} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                            </a>
-                       </Button> */}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -197,6 +209,14 @@ export default function PaymentLinksPage() {
           )}
         </CardContent>
       </Card>
+
+      {selectedLink && (
+        <LinkDetailsDialog
+          isOpen={!!selectedLink}
+          onClose={() => setSelectedLink(null)}
+          link={selectedLink}
+        />
+      )}
     </div>
   );
 }
