@@ -18,6 +18,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { toast } from 'sonner';
 import { Loader2, ArrowLeft, Info, Copy, Check, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { PaymentLinkDisplay } from "@/components/ui/payment-link-display";
 
 export default function RequestPaymentPage() {
   const router = useRouter();
@@ -267,43 +268,20 @@ export default function RequestPaymentPage() {
       {/* Success Dialog */}
       <Dialog open={showSuccessDialog} onOpenChange={(open) => {
         if (!open) {
-          // Reset form and close dialog
           form.reset();
           setShowSuccessDialog(false);
         }
       }}>
         <DialogContent className="sm:max-w-md p-6">
-          <button
-            onClick={() => setShowSuccessDialog(false)}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-            <span className="sr-only">Close</span>
-          </button>
           <DialogHeader className="space-y-3 text-center">
             <DialogTitle className="text-xl">Payment Link Created!</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               Your payment link has been generated successfully. Share it with your customer.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="mt-6 mb-6">
-            <div className="relative">
-              <div className="flex items-center bg-muted/50 px-3 py-2.5 rounded-lg">
-                <code className="text-sm text-neutral-800 dark:text-neutral-200 font-mono">{paymentLink}</code>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => copyToClipboard(paymentLink)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
+            <PaymentLinkDisplay link={paymentLink} />
           </div>
 
           <div className="flex flex-col gap-2">

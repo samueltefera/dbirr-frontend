@@ -3,9 +3,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Copy, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { ExternalLink } from 'lucide-react';
+import { PaymentLinkDisplay } from "@/components/ui/payment-link-display";
 
 interface LinkDetailsDialogProps {
   isOpen: boolean;
@@ -26,15 +25,6 @@ interface LinkDetailsDialogProps {
 
 export function LinkDetailsDialog({ isOpen, onClose, link }: LinkDetailsDialogProps) {
   const paymentLink = `${window.location.origin}/pay/${link.linkId}`;
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(paymentLink);
-      toast.success("Payment link copied!");
-    } catch (err) {
-      toast.error("Failed to copy link");
-    }
-  };
 
   // Helper to determine badge variant based on status
   const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" | "success" => {
@@ -86,19 +76,7 @@ export function LinkDetailsDialog({ isOpen, onClose, link }: LinkDetailsDialogPr
           {/* Payment Link */}
           <div className="space-y-2">
             <h3 className="font-medium">Payment Link</h3>
-            <div className="flex items-center justify-between bg-muted/50 px-3 py-2.5 rounded-lg">
-              <code className="text-sm text-neutral-800 dark:text-neutral-200 font-mono truncate max-w-[80%]">
-                {paymentLink}
-              </code>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={copyToClipboard}
-                className="h-8 w-8 shrink-0"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
+            <PaymentLinkDisplay link={paymentLink} />
           </div>
         </div>
 
