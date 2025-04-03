@@ -33,7 +33,7 @@ export default function Sidebar() {
         {/* Logo/Brand */}
         <div className="h-16 flex items-center justify-center border-b border-gray-200 dark:border-neutral-800 shrink-0">
            <Link href="/dashboard" className="text-2xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 text-transparent bg-clip-text">
-             dbirr
+             Dbirr
            </Link>
         </div>
   

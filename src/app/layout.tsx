@@ -10,7 +10,7 @@ import { ClientWalletProvider } from "@/lib/context/ClientWalletProvider"; // Im
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "dbirr",
+  title: "Dbirr",
   description: "Solana Payment Solution",
 };
 
