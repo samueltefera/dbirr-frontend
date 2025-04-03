@@ -18,7 +18,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { toast } from 'sonner';
 import { Loader2, ArrowLeft, Info, Copy, Check, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { PaymentLinkDisplay } from "@/components/ui/payment-link-display";
 
 export default function RequestPaymentPage() {
   const router = useRouter();
@@ -281,7 +280,19 @@ export default function RequestPaymentPage() {
           </DialogHeader>
 
           <div className="mt-6 mb-6">
-            <PaymentLinkDisplay link={paymentLink} />
+            <div className="flex items-center justify-between bg-muted/50 px-3 py-2.5 rounded-lg">
+              <code className="text-sm text-neutral-800 dark:text-neutral-200 font-mono truncate max-w-[80%]">
+                {paymentLink}
+              </code>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => copyToClipboard(paymentLink)}
+                className="h-8 w-8 shrink-0"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/context/AuthContext";
-import { Toaster } from "@/components/ui/sonner"; // Correct import path for sonner
+import { Toaster } from "@/components/ui/sonner";
+import { ClientWalletProvider } from "@/lib/context/ClientWalletProvider"; // Import Wallet Provider
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
-          {children}
-          <Toaster richColors position="top-right" /> {/* Render sonner's Toaster, optionally configure */}
+           <ClientWalletProvider> {/* Wrap content with Wallet Provider */}
+              {children}
+              <Toaster richColors position="top-right" />
+           </ClientWalletProvider>
         </AuthProvider>
       </body>
     </html>

@@ -16,8 +16,7 @@ export interface PaymentLink {
     status: 'active' | 'paid' | 'expired' | 'inactive'; // Match backend enum
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
-    // user?: User; // User details might be included but often not needed for the list
-    // transactions?: Transaction[]; // Transaction details likely fetched separately
+    user: User; // User details might be included but often not needed for the list
   }
   
   // Add other types as needed (e.g., Transaction)
@@ -34,4 +33,16 @@ export interface PaymentLink {
       customerPhone: string | null;
       customerShippingAddress: string | null;
       createdAt: string;
+  }
+
+  export interface User {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    brandColor: string;
+    useDefaultTheme: boolean;
+    toggleDarkMode: boolean;
+    useDevnet: boolean;
+    walletAddress: string | null;
   }

@@ -52,68 +52,105 @@ export default function RegisterPage() {
   };
 
   return (
-     <Card className="w-full max-w-sm bg-white/10 backdrop-blur-md border border-white/20 text-white">
-         <CardHeader>
-              <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">dbirr</span>
-                  <CardTitle className="text-xl font-semibold">Register</CardTitle>
-              </div>
-              <CardDescription className="text-gray-300">Create your merchant account.</CardDescription>
-         </CardHeader>
-         <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-3">
-                 {/* First Name */}
-                 <div className="space-y-1">
-                     <Label htmlFor="firstName">First Name</Label>
-                     <Input id="firstName" required value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/10 border-white/30 placeholder-gray-400 text-white"/>
-                 </div>
-                 {/* Last Name */}
-                 <div className="space-y-1">
-                     <Label htmlFor="lastName">Last Name</Label>
-                     <Input id="lastName" required value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/10 border-white/30 placeholder-gray-400 text-white"/>
-                 </div>
-                 {/* Email */}
-                 <div className="space-y-1">
-                     <Label htmlFor="email">Email Address</Label>
-                     <Input id="email" type="email" placeholder="you@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/10 border-white/30 placeholder-gray-400 text-white"/>
-                 </div>
-                 {/* Wallet Address */}
-                 <div className="space-y-1">
-                     <Label htmlFor="walletAddress">Solana Wallet Address</Label>
-                     <Input id="walletAddress" placeholder="Your public Solana address" required value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} className="bg-white/10 border-white/30 placeholder-gray-400 text-white"/>
-                     <p className="text-xs text-gray-400">This is where you'll receive payments.</p>
-                 </div>
-                  {/* Password */}
-                 <div className="space-y-1 relative">
-                     <Label htmlFor="password">Password</Label>
-                       <Input
-                         id="password"
-                         type={showPassword ? "text" : "password"}
-                         required
-                         minLength={6}
-                         value={password}
-                         onChange={(e) => setPassword(e.target.value)}
-                         className="bg-white/10 border-white/30 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500 pr-10"
-                       />
-                        <button
-                           type="button"
-                           onClick={() => setShowPassword(!showPassword)}
-                           className="absolute right-2 top-[calc(50%+8px)] -translate-y-1/2 text-gray-400 hover:text-white" // Adjust positioning
-                           aria-label={showPassword ? "Hide password" : "Show password"}
-                        >
-                           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                  </div>
-             </CardContent>
-             <CardFooter className="flex flex-col space-y-3">
-                  <Button type="submit" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white" disabled={isLoading}>
-                     {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Register"}
-                  </Button>
-                  <Button variant="outline" className="w-full bg-transparent border-white/50 hover:bg-white/10 text-white" asChild>
-                     <Link href="/auth/login">Already have an account? Login</Link>
-                   </Button>
-             </CardFooter>
-         </form>
-     </Card>
+    <Card className="w-full bg-white/95 dark:bg-neutral-950/95 shadow-xl border-0">
+      <CardHeader className="space-y-4">
+        <div className="flex items-center justify-between">
+          <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">dbirr</span>
+          <CardTitle className="text-xl font-semibold">Register</CardTitle>
+        </div>
+        <CardDescription className="text-muted-foreground">Create your merchant account.</CardDescription>
+      </CardHeader>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          {/* First Name */}
+          <div className="space-y-2">
+            <Label htmlFor="firstName">First Name</Label>
+            <Input 
+              id="firstName" 
+              required 
+              value={firstName} 
+              onChange={(e) => setFirstName(e.target.value)} 
+              className="h-10"
+            />
+          </div>
+          {/* Last Name */}
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input 
+              id="lastName" 
+              required 
+              value={lastName} 
+              onChange={(e) => setLastName(e.target.value)} 
+              className="h-10"
+            />
+          </div>
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email">Email Address</Label>
+            <Input 
+              id="email" 
+              type="email" 
+              placeholder="you@example.com" 
+              required 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              className="h-10"
+            />
+          </div>
+          {/* Wallet Address */}
+          <div className="space-y-2">
+            <Label htmlFor="walletAddress">Solana Wallet Address</Label>
+            <Input 
+              id="walletAddress" 
+              placeholder="Your public Solana address" 
+              required 
+              value={walletAddress} 
+              onChange={(e) => setWalletAddress(e.target.value)} 
+              className="h-10"
+            />
+            <p className="text-xs text-muted-foreground">This is where you'll receive payments.</p>
+          </div>
+          {/* Password */}
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-10 pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-3">
+          <Button 
+            type="submit" 
+            className="w-full h-10 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700" 
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Register"}
+          </Button>
+          <Button 
+            variant="outline" 
+            className="w-full h-10" 
+            asChild
+          >
+            <Link href="/auth/login">Already have an account? Login</Link>
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }
