@@ -46,3 +46,20 @@ export interface PaymentLink {
     useDevnet: boolean;
     walletAddress: string | null;
   }
+
+  export interface Transaction {
+    id: string; // Backend internal ID
+    paymentLinkId: string;
+    blockchainTransactionId: string | null; // The on-chain signature
+    amountPaid: number | string; // Use parseFloat if string
+    currency: 'SOL' | 'USDC';
+    status: 'pending' | 'confirmed' | 'failed' | 'refunded'; // Match backend enum
+    payerAddress: string | null;
+    customerName: string | null;
+    customerEmail: string | null;
+    customerPhone: string | null;
+    customerShippingAddress: string | null;
+    createdAt: string; // ISO date string
+    // Consider adding relation to PaymentLink if backend includes it
+    // paymentLink?: { productName: string; linkId: string };
+  }
