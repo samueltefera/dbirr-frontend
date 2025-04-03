@@ -152,8 +152,8 @@ export default function PaymentPage() {
        } else if (paymentLink.currency === 'USDC') {
          // --- USDC Transaction (Requires correct Mint address) ---
          // !! IMPORTANT: Replace with your ACTUAL USDC Mint Address (Devnet/Mainnet/Local) !!
-         const usdcMintAddress = new PublicKey('AycNM7sw7fvmH9utV1Dd6NV3wiv29NPYfwopBLTjfXUx'); // e.g., EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v for Mainnet
-         const decimals = 9; // Typical USDC decimals
+         const usdcMintAddress = new PublicKey('Af8pgXAS4C7CcPCsqkoKt4iQ8QKTASradj6aJAwmEmDS'); // e.g., EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v for Mainnet
+         const decimals = 6; // Typical USDC decimals
 
           // Ensure recipientAddress is valid before getting ATA
          if (!PublicKey.isOnCurve(recipientAddress.toBuffer())) {
@@ -177,7 +177,7 @@ export default function PaymentPage() {
 
          const tokenAmount = BigInt(Math.round(amount * (10 ** decimals))); // Convert USDC amount to smallest unit
 
-         console.log(`Creating USDC transfer: ${tokenAmount} units from ${senderTokenAccountAddress.toBase58()} to ${recipientTokenAccountAddress.toBase58()}`);
+         console.log(`Creating USDC transfer: ${tokenAmount} units from ${senderTokenAccountAddress.toBase58()} to ${recipientTokenAccountAddress.toBase58()} recipient: ${recipientAddress.toBase58()}`);
 
          transaction.add(
            createTransferInstruction(
