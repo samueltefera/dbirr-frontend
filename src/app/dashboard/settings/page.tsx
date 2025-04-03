@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'; // For potentially editable field
 import { toast } from 'sonner';
 import api from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTheme } from "next-themes"
 
 // Define the available brand colors (similar to video)
 // Use Tailwind color names or hex codes
@@ -29,6 +30,7 @@ const brandColors = [
 
 export default function SettingsPage() {
   const { user, isLoading: isAuthLoading, updateUserLocally, refetchUser, logout } = useAuth();
+  const { setTheme } = useTheme();
   const [isSaving, setIsSaving] = useState(false);
 
   // State for editable settings - initialize with user data once loaded
@@ -44,11 +46,18 @@ export default function SettingsPage() {
       setUseDefaultTheme(user.useDefaultTheme);
       setToggleDarkMode(user.toggleDarkMode);
       setUseDevnet(user.useDevnet);
+      // Set the theme based on the database value
+      setTheme(user.toggleDarkMode ? 'dark' : 'light');
     }
-  }, [user]);
+  }, [user, setTheme]);
 
   const getInitials = (firstName?: string, lastName?: string) => {
     return `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase() || <UserCircle size={20} />;
+  };
+
+  const handleToggleDarkMode = (checked: boolean) => {
+    setToggleDarkMode(checked);
+    setTheme(checked ? 'dark' : 'light');
   };
 
   const handleSaveChanges = async () => {
@@ -198,13 +207,16 @@ export default function SettingsPage() {
                 <Label htmlFor="dark-mode" className="font-medium">Enable Dark Mode</Label>
                 <p className="text-[0.8rem] text-muted-foreground">
                     Sets the default appearance preference.
-                 </p>
-             </div>
+                </p>
+            </div>
             <Switch
               id="dark-mode"
               checked={toggleDarkMode}
-              onCheckedChange={setToggleDarkMode}
-              // Note: Actual theme switching needs a theme provider (e.g., next-themes)
+              onCheckedChange={(checked) => {
+                setToggleDarkMode(checked);
+                // Update the theme based on the toggle state
+                document.documentElement.classList.toggle('dark', checked);
+              }}
             />
           </div>
 
