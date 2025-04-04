@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import api from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTheme } from "next-themes"
+import { CurrencyLogo } from "@/components/ui/currency-logo"
 
 // Define the available brand colors (similar to video)
 // Use Tailwind color names or hex codes
@@ -222,17 +223,38 @@ export default function SettingsPage() {
 
           {/* Set to Devnet */}
           <div className="flex items-center justify-between space-x-2 p-3 rounded-md border border-gray-200 dark:border-neutral-800">
-             <div className='space-y-0.5'>
-                 <Label htmlFor="devnet-mode" className="font-medium">Use Solana Devnet</Label>
-                  <p className="text-[0.8rem] text-muted-foreground">
-                      Process transactions on the development network. Disable for Mainnet.
-                  </p>
-             </div>
+            <div className='space-y-0.5'>
+              <div className="flex items-center space-x-2">
+                <CurrencyLogo currency="SOL" size={20} />
+                <Label htmlFor="devnet-mode" className="font-medium">Use Solana Devnet</Label>
+              </div>
+              <p className="text-[0.8rem] text-muted-foreground">
+                Process transactions on the development network. Disable for Mainnet.
+              </p>
+            </div>
             <Switch
               id="devnet-mode"
               checked={useDevnet}
               onCheckedChange={setUseDevnet}
             />
+          </div>
+
+          {/* Supported Currencies */}
+          <div className="space-y-2 p-3 rounded-md border border-gray-200 dark:border-neutral-800">
+            <Label className="font-medium">Supported Currencies</Label>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <CurrencyLogo currency="SOL" size={24} />
+                <span className="text-sm">Solana (SOL)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CurrencyLogo currency="USDC" size={24} />
+                <span className="text-sm">USD Coin (USDC)</span>
+              </div>
+            </div>
+            <p className="text-[0.8rem] text-muted-foreground mt-2">
+              These are the cryptocurrencies supported for payments.
+            </p>
           </div>
 
         </CardContent>
