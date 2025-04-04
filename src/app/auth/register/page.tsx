@@ -99,7 +99,7 @@ export default function RegisterPage() {
                 className="h-11"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="walletAddress">Solana Wallet Address</Label>
               <Input 
                 id="walletAddress" 
@@ -110,7 +110,7 @@ export default function RegisterPage() {
                 className="h-11 font-mono text-sm"
               />
               <p className="text-xs text-muted-foreground">This is where you'll receive payments.</p>
-            </div>
+            </div> */}
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">

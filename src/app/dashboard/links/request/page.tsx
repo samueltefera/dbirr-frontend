@@ -18,6 +18,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { toast } from 'sonner';
 import { Loader2, ArrowLeft, Info, Copy, Check, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { CurrencyLogo } from "@/components/ui/currency-logo";
 
 export default function RequestPaymentPage() {
   const router = useRouter();
@@ -146,12 +147,24 @@ export default function RequestPaymentPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select crypto (e.g., SOL)" />
+                          <SelectValue placeholder="Select crypto (e.g., SOL)">
+                            {field.value && (
+                              <div className="flex items-center gap-2">
+                                <CurrencyLogo currency={field.value} size={16} />
+                                <span>{field.value}</span>
+                              </div>
+                            )}
+                          </SelectValue>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {availableCurrencies.map(curr => (
-                          <SelectItem key={curr} value={curr}>{curr}</SelectItem>
+                          <SelectItem key={curr} value={curr}>
+                            <div className="flex items-center gap-2">
+                              <CurrencyLogo currency={curr} size={16} />
+                              <span>{curr}</span>
+                            </div>
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>

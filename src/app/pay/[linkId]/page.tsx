@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import { AlertCircle, CheckCircle2, Copy, Loader2, CircleDollarSign } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { CurrencyLogo } from "@/components/ui/currency-logo";
 
 // Wallet Adapter Hooks and UI components
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
@@ -317,7 +318,10 @@ export default function PaymentPage() {
              <div className="space-y-3">
                <div className="flex justify-between items-center">
                  <span className="text-muted-foreground">Amount Paid</span>
-                 <span className="font-medium">{formatCurrency(verifiedTx.amountPaid, verifiedTx.currency)}</span>
+                 <div className="flex items-center gap-2">
+                   <CurrencyLogo currency={verifiedTx.currency} size={16} />
+                   <span className="font-medium">{formatCurrency(verifiedTx.amountPaid, verifiedTx.currency)}</span>
+                 </div>
                </div>
                <div className="flex justify-between items-center">
                  <span className="text-muted-foreground">Date</span>
@@ -366,9 +370,12 @@ export default function PaymentPage() {
            {/* Amount Due */}
            <div className="rounded-lg border bg-card p-6 space-y-2">
              <p className="text-sm text-muted-foreground text-center">Amount Due</p>
-             <p className="text-3xl font-bold tracking-tight text-center">
-               {formatCurrency(paymentLink!.amount, paymentLink!.currency)}
-             </p>
+             <div className="flex items-center justify-center gap-2">
+               <CurrencyLogo currency={paymentLink!.currency} size={24} />
+               <p className="text-3xl font-bold tracking-tight">
+                 {formatCurrency(paymentLink!.amount, paymentLink!.currency)}
+               </p>
+             </div>
              <p className="text-sm text-muted-foreground text-center">
                ≈ {formatCurrency(paymentLink!.amountFiat, paymentLink!.fiatCurrencyCode)}
              </p>

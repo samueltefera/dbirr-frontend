@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from 'lucide-react';
 import { PaymentLinkDisplay } from "@/components/ui/payment-link-display";
+import { CurrencyLogo } from "@/components/ui/currency-logo";
 
 interface LinkDetailsDialogProps {
   isOpen: boolean;
@@ -47,7 +48,7 @@ export function LinkDetailsDialog({ isOpen, onClose, link }: LinkDetailsDialogPr
           </DialogDescription>
         </DialogHeader>
 
-        <div className="mt-4 space-y-4">
+        <div className="space-y-6">
           {/* Payment Details */}
           <div className="space-y-2">
             <h3 className="font-medium">Payment Details</h3>
@@ -55,7 +56,10 @@ export function LinkDetailsDialog({ isOpen, onClose, link }: LinkDetailsDialogPr
               <div className="text-muted-foreground">Amount:</div>
               <div>{link.amountFiat} {link.fiatCurrencyCode}</div>
               <div className="text-muted-foreground">Currency:</div>
-              <div>{link.currency}</div>
+              <div className="flex items-center gap-2">
+                <CurrencyLogo currency={link.currency} size={16} />
+                <span>{link.currency}</span>
+              </div>
               <div className="text-muted-foreground">Status:</div>
               <div>
                 <Badge variant={getStatusVariant(link.status)} className="capitalize">
